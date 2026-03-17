@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AdShield Acessível: painel para bloqueio de anúncios indesejados com interface inclusiva, operável por teclado e compatível com leitores de tela.">
+  <title>AdShield Acessível | Painel principal</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+  <header class="site-header" role="banner">
+    <div class="topbar shell">
+      <div>
+        <p class="brand-eyebrow">Bloqueio acessível de anúncios</p>
+        <h1 class="brand-title">AdShield Acessível</h1>
+      </div>
+      <nav aria-label="Atalhos principais">
+        <ul class="top-actions">
+          <li><a class="button button-secondary" href="settings.html">Configurações</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo-principal" class="shell" tabindex="-1">
+    <section class="hero-card" aria-labelledby="painel-titulo" aria-describedby="painel-descricao">
+      <div class="hero-head">
+        <h2 id="painel-titulo">Anúncios bloqueados</h2>
+        <p id="painel-descricao">
+          Painel principal do bloqueador. O contador apresenta o total de anúncios interceptados no dispositivo.
+        </p>
+      </div>
+
+      <div class="metric-panel" aria-labelledby="contador-titulo" aria-describedby="contador-ajuda">
+        <p id="contador-titulo" class="metric-label">Total atual</p>
+        <output id="blockedCount" class="metric-value" aria-live="polite" aria-atomic="true">0</output>
+        <p id="contador-ajuda" class="metric-help">
+          Use os botões abaixo para simular eventos do sistema e testar a leitura por tecnologias assistivas.
+        </p>
+      </div>
+
+      <div class="actions-grid" aria-label="Ações do painel">
+        <button id="simulateBlock" class="button button-primary" type="button">
+          Simular bloqueio
+        </button>
+        <button id="resetCounter" class="button button-secondary" type="button">
+          Reiniciar contador
+        </button>
+        <a class="button button-secondary" href="settings.html">
+          Abrir configurações
+        </a>
+      </div>
+    </section>
+
+    <section class="content-grid" aria-label="Informações do sistema">
+      <article class="info-card" aria-labelledby="resumo-titulo">
+        <h2 id="resumo-titulo">Resumo de acessibilidade</h2>
+        <ul class="check-list">
+          <li>Estrutura semântica com <code>header</code>, <code>nav</code>, <code>main</code> e <code>section</code>.</li>
+          <li>Navegação completa por teclado, foco visível e link para salto de conteúdo.</li>
+          <li>Mensagens dinâmicas com <code>aria-live</code> e estados anunciados ao leitor de tela.</li>
+          <li>Preferências persistidas localmente: idioma, voz, volume, contraste, fonte e filtros de bloqueio.</li>
+        </ul>
+      </article>
+
+      <article class="info-card" aria-labelledby="atalhos-titulo">
+        <h2 id="atalhos-titulo">Atalhos de teclado</h2>
+        <dl class="shortcut-list">
+          <div>
+            <dt>Alt + 1</dt>
+            <dd>Ir para o painel principal</dd>
+          </div>
+          <div>
+            <dt>Alt + 2</dt>
+            <dd>Abrir configurações</dd>
+          </div>
+          <div>
+            <dt>Alt + B</dt>
+            <dd>Simular bloqueio de anúncio</dd>
+          </div>
+          <div>
+            <dt>Alt + R</dt>
+            <dd>Reiniciar contador</dd>
+          </div>
+        </dl>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <p>Projeto demonstrativo orientado por princípios de IHC: perceptibilidade, operabilidade, compreensibilidade, robustez, consistência e prevenção de erros.</p>
+  </footer>
+
+  <div id="liveStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="liveAlert" class="sr-only" role="alert" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

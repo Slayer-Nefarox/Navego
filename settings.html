@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Configurações acessíveis do AdShield Acessível: idioma, voz, contraste, tipografia e filtros de bloqueio.">
+  <title>AdShield Acessível | Configurações</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="settings">
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+
+  <header class="site-header" role="banner">
+    <div class="topbar shell topbar-center">
+      <div>
+        <p class="brand-eyebrow">Personalização acessível</p>
+        <h1 class="brand-title">Configurações</h1>
+      </div>
+      <nav aria-label="Ações de navegação">
+        <ul class="top-actions">
+          <li><a class="button button-secondary" href="index.html">Voltar ao painel</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo-principal" class="shell settings-shell" tabindex="-1">
+    <form id="settingsForm" class="settings-layout" novalidate>
+      <section class="settings-card" aria-labelledby="ambiente-titulo">
+        <div class="section-heading">
+          <h2 id="ambiente-titulo">Ambiente</h2>
+          <p>Preferências sensoriais, tipográficas e de leitura.</p>
+        </div>
+
+        <div class="field-grid">
+          <div class="form-field">
+            <label for="language">Idioma</label>
+            <select id="language" name="language">
+              <option value="pt-BR">Português (Brasil)</option>
+              <option value="en-US">English</option>
+              <option value="es-ES">Español</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="voice">Voz</label>
+            <select id="voice" name="voice">
+              <option value="padrao">Padrão do sistema</option>
+              <option value="clara">Clara</option>
+              <option value="grave">Grave</option>
+              <option value="neutra">Neutra</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="volume">Volume</label>
+            <div class="range-wrap">
+              <input id="volume" name="volume" type="range" min="0" max="100" step="5" value="70" aria-describedby="volumeValue">
+              <output id="volumeValue" for="volume">70%</output>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="fontFamily">Fonte</label>
+            <select id="fontFamily" name="fontFamily">
+              <option value="system-ui">Padrão</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="Georgia, serif">Georgia</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="fontColor">Cor da fonte</label>
+            <input id="fontColor" name="fontColor" type="color" value="#1d1d1f">
+          </div>
+
+          <div class="form-field">
+            <label for="fontSize">Tamanho da fonte</label>
+            <div class="range-wrap">
+              <input id="fontSize" name="fontSize" type="range" min="16" max="24" step="1" value="18" aria-describedby="fontSizeValue">
+              <output id="fontSizeValue" for="fontSize">18px</output>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="bgColor">Cor do fundo</label>
+            <input id="bgColor" name="bgColor" type="color" value="#f4f4f4">
+          </div>
+
+          <fieldset class="form-field toggle-fieldset">
+            <legend>Alto contraste</legend>
+            <label class="switch">
+              <input id="highContrast" name="highContrast" type="checkbox">
+              <span class="switch-ui" aria-hidden="true"></span>
+              <span>Ativar modo de alto contraste</span>
+            </label>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="settings-card" aria-labelledby="bloqueio-titulo">
+        <div class="section-heading">
+          <h2 id="bloqueio-titulo">Bloqueio</h2>
+          <p>Defina quais categorias serão filtradas pelo sistema.</p>
+        </div>
+
+        <fieldset class="checkbox-group">
+          <legend>Categorias bloqueadas</legend>
+          <label class="checkbox-row">
+            <input id="push" name="push" type="checkbox" checked>
+            <span>Notificações de push</span>
+          </label>
+          <label class="checkbox-row">
+            <input id="tracking" name="tracking" type="checkbox" checked>
+            <span>Rastreamento</span>
+          </label>
+          <label class="checkbox-row">
+            <input id="socialIcons" name="socialIcons" type="checkbox" checked>
+            <span>Ícones de redes sociais</span>
+          </label>
+          <label class="checkbox-row">
+            <input id="distractions" name="distractions" type="checkbox" checked>
+            <span>Distrações</span>
+          </label>
+        </fieldset>
+      </section>
+
+      <section class="settings-card" aria-labelledby="contato-titulo">
+        <div class="section-heading">
+          <h2 id="contato-titulo">Entre em contato</h2>
+          <p>Canais de suporte do serviço demonstrativo.</p>
+        </div>
+
+        <div class="field-grid">
+          <div class="form-field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="suporte@adshield.local" aria-describedby="emailHelp emailError">
+            <small id="emailHelp">Utilizado para retorno da equipe de suporte.</small>
+            <p id="emailError" class="error-text" hidden></p>
+          </div>
+
+          <div class="form-field">
+            <label for="facebook">Facebook</label>
+            <input id="facebook" name="facebook" type="url" inputmode="url" placeholder="https://facebook.com/adshield" aria-describedby="facebookError">
+            <p id="facebookError" class="error-text" hidden></p>
+          </div>
+
+          <div class="form-field">
+            <label for="twitter">Twitter/X</label>
+            <input id="twitter" name="twitter" type="url" inputmode="url" placeholder="https://x.com/adshield" aria-describedby="twitterError">
+            <p id="twitterError" class="error-text" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button class="button button-primary" type="submit">Salvar configurações</button>
+        <a class="button button-secondary" href="index.html">Voltar</a>
+      </div>
+    </form>
+  </main>
+
+  <div id="liveStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div id="liveAlert" class="sr-only" role="alert" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>
