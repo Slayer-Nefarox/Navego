@@ -2,6 +2,7 @@
   display: flex;
   margin: 0;
   font-family: sans-serif;
+  font-size: 16px;
   height: 100vh;
   background: #ffffff;
 }
@@ -18,12 +19,12 @@
 .save-button {
   margin: 20px;
   margin-top: auto;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   border: none;
   border-radius: 10px;
   background: #1e88e5;
   color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -73,15 +74,15 @@
 .toast {
   min-width: 240px;
   max-width: 320px;
-  padding: 14px 16px;
+  padding: 0.875rem 1rem;
   border-radius: 12px;
   background: rgba(30, 136, 229, 0.96);
   color: white;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-  font-size: 14px;
+  box-shadow: 0 0.75rem 1.875rem rgba(0,0,0,0.18);
+  font-size: 0.875rem;
   font-weight: 600;
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(1rem);
   animation: toast-in 0.28s ease forwards;
 }
 
@@ -140,35 +141,36 @@
 .option-label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 16px;
+  gap: 0.75rem;
+  font-size: 1rem;
 }
 
 .option-desc {
   color: #666;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
 .option-icon {
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
   object-fit: contain;
 }
 
 .toggle-group {
   display: inline-flex;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .toggle-button {
-  padding: 10px 16px;
+  padding: 0.625rem 1rem;
   border: none;
   border-radius: 8px;
   background: #ddd;
   color: #333;
   cursor: pointer;
-  min-width: 90px;
+  min-width: 5.625rem;
+  font-size: 0.9375rem;
   font-weight: bold;
 }
 
@@ -183,18 +185,18 @@
 }
 
 .font-size-group .toggle-button {
-  width: 36px;
-  min-width: 36px;
-  padding: 10px 0;
+  width: 2.25rem;
+  min-width: 2.25rem;
+  padding: 0.625rem 0;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
-body.font-size-1 { font-size: 14px; }
-body.font-size-2 { font-size: 16px; }
-body.font-size-3 { font-size: 18px; }
-body.font-size-4 { font-size: 20px; }
-body.font-size-5 { font-size: 22px; }
+body.font-size-1 { font-size: 0.875rem; }
+body.font-size-2 { font-size: 1rem; }
+body.font-size-3 { font-size: 1.125rem; }
+body.font-size-4 { font-size: 1.25rem; }
+body.font-size-5 { font-size: 1.375rem; }
 
 body.dark-mode {
   background: #000;
