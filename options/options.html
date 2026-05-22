@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="menu-item active" data-target="geral">Geral</div>
+    <div class="menu-item" data-target="bloqueioFormularios">Bloqueio de formulários</div>
+    <div class="menu-item" data-target="acessibilidade">Acessibilidade</div>
+    <button id="saveBtn" class="save-button" disabled>Salvar alterações</button>
+  </div>
+  
+  <div class="content">
+    <div id="geral" class="section active">
+      <h2>Geral</h2>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/protecao.png" class="option-icon" alt="Ícone">
+            <span>Bloquear Anúncios Nativos</span>
+          </div>
+          <div class="option-desc">Impede anúncios nativos de carregarem em páginas e protege sua navegação.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="blockNative" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="blockNative" data-value="false">desligado</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/rast.png" class="option-icon" alt="Ícone">
+            <span>Bloquear Rastreadores</span>
+          </div>
+          <div class="option-desc">Bloqueia scripts e domínios usados para rastrear seu comportamento online.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="blockTrackers" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="blockTrackers" data-value="false">desligado</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/online.png" class="option-icon" alt="Ícone">
+            <span>Bloquear listas de filtros online (EasyList)</span>
+          </div>
+          <div class="option-desc">Ativa filtros populares para bloquear anúncios conhecidos em sites.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="blockEasyList" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="blockEasyList" data-value="false">desligado</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/online.png" class="option-icon" alt="Ícone">
+            <span>Bloquear listas de privacidade online (EasyPrivacy)</span>
+          </div>
+          <div class="option-desc">Ativa filtros de privacidade para bloquear rastreamento e coleta de dados.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="false">desligado</button>
+        </div>
+      </div>
+    </div>
+    <div id="bloqueioFormularios" class="section">
+      <h2>Bloqueio de formulários</h2>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/form.png" class="option-icon" alt="Ícone">
+            <span>Bloquear formulários de pagamento</span>
+          </div>
+          <div class="option-desc">Esmaece e bloqueia formulários que parecem coletar dados de cartão e pagamento.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="blockForms" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="blockForms" data-value="false">desligado</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/form.png" class="option-icon" alt="Ícone">
+            <span>Modo rigoroso</span>
+          </div>
+          <div class="option-desc">Bloqueia todos os formulários da página, independentemente do tipo ou do conteúdo pedido.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="strictMode" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="strictMode" data-value="false">desligado</button>
+        </div>
+      </div>
+    </div>
+    <div id="acessibilidade" class="section">
+      <h2>Acessibilidade</h2>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/font.png" class="option-icon" alt="Ícone">
+            <span>Tamanho da fonte</span>
+          </div>
+          <div class="option-desc">Escolha um tamanho de fonte maior para a interface. Alternativamente, use a tecla CTRL (control) + roda do mouse para cima ou baixo. </div>
+        </div>
+        <div class="toggle-group font-size-group">
+          <button class="toggle-button" data-setting="fontSize" data-value="1">1</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="2">2</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="3">3</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="4">4</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="5">5</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/dark.png" class="option-icon" alt="Ícone">
+            <span>Modo escuro</span>
+          </div>
+          <div class="option-desc">Troca o tema para fundo preto e textos brancos.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="darkMode" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="darkMode" data-value="false">desligado</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="option-meta">
+          <div class="option-label">
+            <img src="../images/contrast.png" class="option-icon" alt="Ícone">
+            <span>Alto contraste</span>
+          </div>
+          <div class="option-desc">Define fontes em negrito e delimita layout com linhas visíveis.</div>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-button" data-setting="highContrast" data-value="true">ligado</button>
+          <button class="toggle-button" data-setting="highContrast" data-value="false">desligado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  
+  <script src="options.js"></script>
+</body>
+</html>

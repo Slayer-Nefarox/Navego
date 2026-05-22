@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <button id="settingsBtn" class="settings-btn" aria-label="Abrir configurações">⚙</button>
+    </div>
+    <div class="icon-area">
+      <button id="toggleBtn" class="toggle-btn" type="button" aria-label="Alternar proteção">
+        <img class="toggle-img" src="../Images/ligado.png" alt="Estado da proteção">
+      </button>
+    </div>
+  </div>
+
+  <div id="confirmationOverlay" class="confirmation-overlay hidden" aria-hidden="true">
+    <div class="confirmation-dialog">
+      <p>tem certeza que quer desativar?</p>
+      <div class="confirmation-actions">
+        <button id="cancelDisableBtn" class="cancel-btn" type="button">cancelar</button>
+        <button id="confirmDisableBtn" class="disable-btn" type="button">desativar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
