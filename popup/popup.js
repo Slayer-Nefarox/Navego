@@ -1,4 +1,5 @@
-const toggleImg = document.getElementById('toggleBtn');
+const toggleButton = document.getElementById('toggleBtn');
+const toggleIcon = toggleButton.querySelector('img');
 const settingsBtn = document.getElementById('settingsBtn');
 const confirmationOverlay = document.getElementById('confirmationOverlay');
 const confirmDisableBtn = document.getElementById('confirmDisableBtn');
@@ -12,8 +13,11 @@ const storage = extensionApi?.storage?.local ?? null;
 const runtime = extensionApi?.runtime ?? null;
 
 function updateToggle(enabled) {
-  toggleImg.src = enabled ? images.on : images.off;
-  toggleImg.dataset.state = enabled ? 'on' : 'off';
+  toggleIcon.src = enabled ? images.on : images.off;
+  toggleIcon.alt = enabled ? 'Proteção ligada' : 'Proteção desligada';
+  toggleButton.dataset.state = enabled ? 'on' : 'off';
+  toggleButton.classList.toggle('state-on', enabled);
+  toggleButton.classList.toggle('state-off', !enabled);
 }
 
 function applyAccessibility({ fontSize, darkMode, highContrast }) {
@@ -52,8 +56,8 @@ if (storage) {
   });
 }
 
-toggleImg.addEventListener('click', () => {
-  if (toggleImg.dataset.state === 'on') {
+toggleButton.addEventListener('click', () => {
+  if (toggleButton.dataset.state === 'on') {
     openConfirmation();
     return;
   }

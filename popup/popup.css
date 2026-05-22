@@ -76,8 +76,20 @@ body.high-contrast .settings-btn {
 .toggle-btn {
   border: 0;
   background: transparent;
-  padding: 0;
+  padding: 8px;
   cursor: pointer;
+  border-radius: 22px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toggle-btn.state-on {
+  background: #e8f7ee;
+  box-shadow: inset 0 0 0 1px rgba(34, 139, 34, 0.14);
+}
+
+.toggle-btn.state-off {
+  background: #fdecea;
+  box-shadow: inset 0 0 0 1px rgba(211, 47, 47, 0.16);
 }
 
 .toggle-img {
