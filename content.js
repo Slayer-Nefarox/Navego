@@ -12,6 +12,13 @@ const FORM_KEYWORDS = [
   'checkout'
 ];
 
+/* Palavras-chave usadas para detectar anúncios e banners */
+const AD_KEYWORDS_REGEX = /\b(?:ad|ads|advert|advertising|banner|sponsor|sponsors|promo|promoc|publicidade|patrocinado|patrocinada|patrocinio)\b/i;
+const AD_ELEMENT_SELECTORS = ['img', 'iframe', 'video', 'picture', 'div', 'section', 'aside', 'span', 'a'];
+
+const extensionApi = typeof browser === 'object' ? browser : typeof chrome === 'object' ? chrome : null;
+const storage = extensionApi?.storage?.local ?? null;
+
 /* Verifica se um campo contém termos que sugerem formulário de pagamento */
 function fieldMatchesKeyword(field) {
   const text = [
@@ -48,7 +55,6 @@ function matchesForm(form) {
 
 /* Desativa visualmente e funcionalmente o formulário detectado */
 function disableForm(form) {
-  const rect = form.getBoundingClientRect();
   form.querySelectorAll('input, select, textarea, button, a').forEach(el => {
     el.disabled = true;
     el.tabIndex = -1;
@@ -119,8 +125,112 @@ function blockAllForms() {
   });
 }
 
-/* Lê as configurações e aplica o bloqueio de formulários de acordo */
-browser.storage.local.get({ blockForms: true, strictMode: false }).then(res => {
+/* Retorna uma string com atributos relevantes do elemento para análise */
+function getElementAttributesText(element) {
+  const attributes = [
+    element.id,
+    element.className,
+    element.getAttribute('alt'),
+    element.getAttribute('title'),
+    element.getAttribute('placeholder'),
+    element.getAttribute('aria-label'),
+    element.getAttribute('data-src'),
+    element.getAttribute('data-image'),
+    element.getAttribute('src'),
+    element.getAttribute('srcset'),
+    element.getAttribute('href')
+  ].filter(Boolean);
+
+  return attributes.join(' ').toLowerCase();
+}
+
+/* Determina se um elemento aparenta ser anúncio/banners */
+function isAdElement(element) {
+  if (!element || !element.tagName || element.dataset.navegoBlocked === 'true') {
+    return false;
+  }
+
+  const elementText = getElementAttributesText(element);
+  if (AD_KEYWORDS_REGEX.test(elementText)) {
+    return true;
+  }
+
+  const visibleText = (element.textContent || '').toLowerCase();
+  if (AD_KEYWORDS_REGEX.test(visibleText)) {
+    return true;
+  }
+
+  const computedStyle = window.getComputedStyle(element);
+  const backgroundImage = computedStyle.backgroundImage || '';
+  if (backgroundImage && AD_KEYWORDS_REGEX.test(backgroundImage)) {
+    return true;
+  }
+
+  if (['IMG', 'IFRAME', 'VIDEO', 'PICTURE'].includes(element.tagName)) {
+    const src = (element.src || element.currentSrc || element.getAttribute('src') || '').toLowerCase();
+    if (AD_KEYWORDS_REGEX.test(src) || src.includes('banner') || src.includes('.gif')) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/* Oculta o elemento detectado como anúncio */
+function hideAdElement(element) {
+  element.dataset.navegoBlocked = 'true';
+  element.style.setProperty('display', 'none', 'important');
+  element.style.setProperty('visibility', 'hidden', 'important');
+  element.style.setProperty('opacity', '0', 'important');
+  element.style.setProperty('pointer-events', 'none', 'important');
+}
+
+/* Varre e oculta elementos que correspondem a anúncios */
+function blockAdElements(root = document) {
+  const elements = Array.from(root.querySelectorAll(AD_ELEMENT_SELECTORS.join(',')));
+  elements.forEach(element => {
+    if (isAdElement(element)) {
+      hideAdElement(element);
+    }
+  });
+}
+
+/* Observa a página para bloquear anúncios carregados dinamicamente */
+function observeAdMutations() {
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType !== Node.ELEMENT_NODE) {
+          return;
+        }
+
+        const element = node;
+        if (isAdElement(element)) {
+          hideAdElement(element);
+        }
+
+        blockAdElements(element);
+      });
+    });
+  });
+
+  observer.observe(document.documentElement || document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
+/* Executa os bloqueios configurados */
+function applyBlocking(res) {
+  if (res.enabled === false) {
+    return;
+  }
+
+  if (res.blockNative) {
+    blockAdElements();
+    observeAdMutations();
+  }
+
   if (res.strictMode) {
     blockAllForms();
     return;
@@ -129,4 +239,35 @@ browser.storage.local.get({ blockForms: true, strictMode: false }).then(res => {
   if (res.blockForms) {
     blockPaymentForms();
   }
-});
+}
+
+const defaultSettings = { enabled: true, blockNative: true, blockForms: true, strictMode: false };
+
+function initializeContentScript() {
+  if (!storage?.get) {
+    applyBlocking(defaultSettings);
+    return;
+  }
+
+  storage.get(defaultSettings).then(res => applyBlocking(res)).catch(() => {
+    applyBlocking(defaultSettings);
+  });
+}
+
+initializeContentScript();
+
+if (storage?.onChanged) {
+  storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !('enabled' in changes)) {
+      return;
+    }
+
+    const newValue = changes.enabled.newValue;
+    if (newValue === false) {
+      window.location.reload();
+      return;
+    }
+
+    initializeContentScript();
+  });
+}
