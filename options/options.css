@@ -1,4 +1,5 @@
-﻿body {
+﻿/* Estilos principais da página de opções */
+body {
   display: flex;
   margin: 0;
   font-family: sans-serif;
@@ -112,6 +113,7 @@
   }
 }
 
+/* Seções de aba escondidas por padrão e exibidas quando ativas */
 .section {
   display: none;
 }
@@ -142,12 +144,12 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 1rem;
+  /*font-size: 1.3rem;*/
 }
 
 .option-desc {
   color: #666;
-  font-size: 0.875rem;
+  /*font-size: 1.1rem;*/
   line-height: 1.5;
 }
 
@@ -170,7 +172,7 @@
   color: #333;
   cursor: pointer;
   min-width: 5.625rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 

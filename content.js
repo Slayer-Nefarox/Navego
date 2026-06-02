@@ -1,3 +1,4 @@
+/* Palavras-chave usadas para detectar formulários de pagamento */
 const FORM_KEYWORDS = [
   'visa',
   'mastercard',
@@ -11,6 +12,7 @@ const FORM_KEYWORDS = [
   'checkout'
 ];
 
+/* Verifica se um campo contém termos que sugerem formulário de pagamento */
 function fieldMatchesKeyword(field) {
   const text = [
     field.name,
@@ -38,11 +40,13 @@ function fieldMatchesKeyword(field) {
   return parentLabel && FORM_KEYWORDS.some(keyword => parentLabel.textContent.toLowerCase().includes(keyword));
 }
 
+/* Verifica se o formulário contém qualquer campo com palavras-chave de pagamento */
 function matchesForm(form) {
   const inputs = Array.from(form.querySelectorAll('input, select, textarea'));
   return inputs.some(field => fieldMatchesKeyword(field));
 }
 
+/* Desativa visualmente e funcionalmente o formulário detectado */
 function disableForm(form) {
   const rect = form.getBoundingClientRect();
   form.querySelectorAll('input, select, textarea, button, a').forEach(el => {
@@ -97,6 +101,7 @@ function disableForm(form) {
   form.appendChild(overlay);
 }
 
+/* Bloqueia apenas formulários que parecem ser de pagamento */
 function blockPaymentForms() {
   const forms = Array.from(document.querySelectorAll('form'));
   forms.forEach(form => {
@@ -106,6 +111,7 @@ function blockPaymentForms() {
   });
 }
 
+/* Bloqueia todos os formulários quando o modo rigoroso está ativo */
 function blockAllForms() {
   const forms = Array.from(document.querySelectorAll('form'));
   forms.forEach(form => {
@@ -113,6 +119,7 @@ function blockAllForms() {
   });
 }
 
+/* Lê as configurações e aplica o bloqueio de formulários de acordo */
 browser.storage.local.get({ blockForms: true, strictMode: false }).then(res => {
   if (res.strictMode) {
     blockAllForms();

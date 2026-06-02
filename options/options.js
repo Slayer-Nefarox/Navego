@@ -1,3 +1,4 @@
+/* Inicializa a navegação das abas de opções */
 document.querySelectorAll('.menu-item').forEach(item => {
   item.addEventListener('click', (e) => {
     document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
@@ -9,15 +10,17 @@ document.querySelectorAll('.menu-item').forEach(item => {
   });
 });
 
+/* Detecta a API de extensão correta para Chrome ou Firefox */
 const extensionApi = typeof browser === 'object' ? browser : typeof chrome === 'object' ? chrome : null;
 const storage = extensionApi?.storage?.local ?? null;
 const runtime = extensionApi?.runtime ?? null;
 const saveButton = document.getElementById('saveBtn');
 const toggleButtons = document.querySelectorAll('.toggle-button');
 const settings = ['blockNative', 'blockTrackers', 'blockEasyList', 'blockEasyPrivacy', 'blockForms', 'strictMode', 'fontSize', 'darkMode', 'highContrast'];
-const defaultSettings = { blockNative: false, blockTrackers: false, blockEasyList: true, blockEasyPrivacy: true, blockForms: true, strictMode: false, fontSize: 3, darkMode: false, highContrast: false };
+const defaultSettings = { blockNative: true, blockTrackers: true, blockEasyList: false, blockEasyPrivacy: false, blockForms: true, strictMode: false, fontSize: 2, darkMode: false, highContrast: false };
 let pendingSettings = { ...defaultSettings };
 
+/* Atualiza o estado visual dos botões de toggle conforme o valor atual */
 function setToggleUI(setting, value) {
   document.querySelectorAll(`.toggle-button[data-setting="${setting}"]`).forEach(btn => {
     const buttonValue = btn.dataset.value;
@@ -34,6 +37,7 @@ function setToggleUI(setting, value) {
   });
 }
 
+/* Aplica classes de acessibilidade para fonte, modo escuro e alto contraste */
 function applyAccessibility(settingsValues) {
   document.body.classList.remove('font-size-1', 'font-size-2', 'font-size-3', 'font-size-4', 'font-size-5', 'dark-mode', 'high-contrast');
   document.body.classList.add(`font-size-${settingsValues.fontSize}`);
@@ -46,6 +50,7 @@ function applyPendingUI() {
   applyAccessibility(pendingSettings);
 }
 
+/* Mostra notificações rápidas ao usuário sobre mudanças ou salvamentos */
 function showToast(message, type = 'success') {
   const toastContainer = document.getElementById('toastContainer');
   if (!toastContainer) return;
@@ -64,6 +69,7 @@ function showToast(message, type = 'success') {
   }, 2500);
 }
 
+/* Controla o estado habilitado/desabilitado do botão salvar */
 function setSaveButtonState(enabled) {
   saveButton.disabled = !enabled;
   saveButton.classList.toggle('active', enabled);

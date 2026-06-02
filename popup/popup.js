@@ -1,3 +1,4 @@
+/* Elementos e recursos do popup */
 const toggleButton = document.getElementById('toggleBtn');
 const toggleIcon = toggleButton.querySelector('img');
 const settingsBtn = document.getElementById('settingsBtn');
@@ -12,6 +13,7 @@ const extensionApi = typeof browser === 'object' ? browser : typeof chrome === '
 const storage = extensionApi?.storage?.local ?? null;
 const runtime = extensionApi?.runtime ?? null;
 
+/* Atualiza o ícone e estado visual do botão principal */
 function updateToggle(enabled) {
   toggleIcon.src = enabled ? images.on : images.off;
   toggleIcon.alt = enabled ? 'Proteção ligada' : 'Proteção desligada';
@@ -20,6 +22,7 @@ function updateToggle(enabled) {
   toggleButton.classList.toggle('state-off', !enabled);
 }
 
+/* Aplica configurações de acessibilidade ao popup */
 function applyAccessibility({ fontSize, darkMode, highContrast }) {
   document.body.classList.remove('font-size-1', 'font-size-2', 'font-size-3', 'font-size-4', 'font-size-5', 'dark-mode', 'high-contrast');
   document.body.classList.add(`font-size-${fontSize}`);
@@ -27,6 +30,7 @@ function applyAccessibility({ fontSize, darkMode, highContrast }) {
   document.body.classList.toggle('high-contrast', highContrast);
 }
 
+/* Exibe e esconde a caixa de confirmação para desligar a proteção */
 function closeConfirmation() {
   confirmationOverlay.classList.add('hidden');
   confirmationOverlay.setAttribute('aria-hidden', 'true');
@@ -37,6 +41,7 @@ function openConfirmation() {
   confirmationOverlay.setAttribute('aria-hidden', 'false');
 }
 
+/* Salva o estado do toggle e atualiza UI do popup */
 function setEnabled(enabled) {
   if (storage) {
     storage.set({ enabled }).catch(() => {
@@ -47,6 +52,7 @@ function setEnabled(enabled) {
   closeConfirmation();
 }
 
+/* Carrega estado inicial e aplica as configurações salvas */
 if (storage) {
   storage.get({ enabled: true, fontSize: 3, darkMode: false, highContrast: false }).then(res => {
     updateToggle(res.enabled);

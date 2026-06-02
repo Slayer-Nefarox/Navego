@@ -1,3 +1,4 @@
+/* Atualiza o ruleset do bloqueador quando a opção de habilitar é alterada */
 browser.storage.onChanged.addListener((changes, area) => {
   if (area === 'local' && changes.enabled) {
     const isEnabled = changes.enabled.newValue;
