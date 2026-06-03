@@ -19,6 +19,24 @@ const AD_ELEMENT_SELECTORS = ['img', 'iframe', 'video', 'picture', 'div', 'secti
 const extensionApi = typeof browser === 'object' ? browser : typeof chrome === 'object' ? chrome : null;
 const storage = extensionApi?.storage?.local ?? null;
 
+/* Incrementa os contadores de anúncios bloqueados */
+function incrementAdCounter() {
+  if (!storage) return;
+
+  storage.get({ adsBlockedThisPage: 0, adsBlockedTotal: 0 }).then(res => {
+    const newAdsThisPage = res.adsBlockedThisPage + 1;
+    const newAdsTotal = res.adsBlockedTotal + 1;
+    storage.set({
+      adsBlockedThisPage: newAdsThisPage,
+      adsBlockedTotal: newAdsTotal
+    }).catch(() => {
+      console.error('Falha ao atualizar contadores de anúncios');
+    });
+  }).catch(() => {
+    console.error('Falha ao ler contadores de anúncios');
+  });
+}
+
 /* Verifica se um campo contém termos que sugerem formulário de pagamento */
 function fieldMatchesKeyword(field) {
   const text = [
@@ -183,6 +201,7 @@ function hideAdElement(element) {
   element.style.setProperty('visibility', 'hidden', 'important');
   element.style.setProperty('opacity', '0', 'important');
   element.style.setProperty('pointer-events', 'none', 'important');
+  incrementAdCounter();
 }
 
 /* Varre e oculta elementos que correspondem a anúncios */
@@ -244,6 +263,13 @@ function applyBlocking(res) {
 const defaultSettings = { enabled: true, blockNative: true, blockForms: true, strictMode: false };
 
 function initializeContentScript() {
+  // Reseta o contador de anúncios bloqueados nessa página
+  if (storage) {
+    storage.set({ adsBlockedThisPage: 0 }).catch(() => {
+      console.error('Falha ao resetar contador de anúncios da página');
+    });
+  }
+
   if (!storage?.get) {
     applyBlocking(defaultSettings);
     return;

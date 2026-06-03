@@ -5,6 +5,8 @@ const settingsBtn = document.getElementById('settingsBtn');
 const confirmationOverlay = document.getElementById('confirmationOverlay');
 const confirmDisableBtn = document.getElementById('confirmDisableBtn');
 const cancelDisableBtn = document.getElementById('cancelDisableBtn');
+const pageCounterValue = document.querySelector('#pageCounter .counter-value');
+const totalCounterValue = document.querySelector('#totalCounter .counter-value');
 const images = {
   on: '../Images/ligado.png',
   off: '../Images/desligado.png'
@@ -12,6 +14,7 @@ const images = {
 const extensionApi = typeof browser === 'object' ? browser : typeof chrome === 'object' ? chrome : null;
 const storage = extensionApi?.storage?.local ?? null;
 const runtime = extensionApi?.runtime ?? null;
+const tabs = extensionApi?.tabs ?? null;
 
 /* Atualiza o ícone e estado visual do botão principal */
 function updateToggle(enabled) {
@@ -20,6 +23,38 @@ function updateToggle(enabled) {
   toggleButton.dataset.state = enabled ? 'on' : 'off';
   toggleButton.classList.toggle('state-on', enabled);
   toggleButton.classList.toggle('state-off', !enabled);
+}
+
+/* Atualiza os contadores de anúncios bloqueados */
+function updateCounters(pageCount, totalCount) {
+  if (pageCounterValue) {
+    pageCounterValue.textContent = pageCount;
+  }
+  if (totalCounterValue) {
+    totalCounterValue.textContent = totalCount;
+  }
+}
+
+/* Carrega os contadores de anúncios bloqueados */
+function loadCounters() {
+  if (storage) {
+    storage.get({ adsBlockedThisPage: 0, adsBlockedTotal: 0 }).then(res => {
+      updateCounters(res.adsBlockedThisPage, res.adsBlockedTotal);
+    }).catch(() => {
+      console.error('Falha ao carregar contadores de anúncios');
+    });
+  }
+}
+
+/* Escuta mudanças no storage para atualizar contadores em tempo real */
+if (storage && extensionApi?.storage) {
+  extensionApi.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local') {
+      if (changes.adsBlockedThisPage || changes.adsBlockedTotal) {
+        loadCounters();
+      }
+    }
+  });
 }
 
 /* Aplica configurações de acessibilidade ao popup */
@@ -54,9 +89,10 @@ function setEnabled(enabled) {
 
 /* Carrega estado inicial e aplica as configurações salvas */
 if (storage) {
-  storage.get({ enabled: true, fontSize: 3, darkMode: false, highContrast: false }).then(res => {
+  storage.get({ enabled: true, fontSize: 3, darkMode: false, highContrast: false, adsBlockedThisPage: 0, adsBlockedTotal: 0 }).then(res => {
     updateToggle(res.enabled);
     applyAccessibility(res);
+    updateCounters(res.adsBlockedThisPage, res.adsBlockedTotal);
   }).catch(() => {
     console.error('Storage API não disponível');
   });

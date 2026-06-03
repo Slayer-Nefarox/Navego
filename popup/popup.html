@@ -7,13 +7,23 @@
 <body>
   <!-- Interface mínima do popup da extensão -->
   <div class="container">
-    <div class="topbar">
-      <button id="settingsBtn" class="settings-btn" aria-label="Abrir configurações">⚙</button>
-    </div>
     <div class="icon-area">
       <button id="toggleBtn" class="toggle-btn" type="button" aria-label="Alternar proteção">
         <img class="toggle-img" src="../Images/ligado.png" alt="Estado da proteção">
       </button>
+    </div>
+    <div class="counters-area">
+      <div class="counter" id="pageCounter">
+        <span class="counter-label">Anúncios bloqueados</span>
+        <span class="counter-value">0</span>
+      </div>
+      <div class="counter" id="totalCounter">
+        <span class="counter-label">Total bloqueado</span>
+        <span class="counter-value">0</span>
+      </div>
+    </div>
+    <div class="topbar">
+      <button id="settingsBtn" class="settings-btn" aria-label="Abrir configurações">⚙</button>
     </div>
   </div>
 
