@@ -1,10 +1,14 @@
 # navego
 
-navego é um bloqueador de anúncios feito para pessoas mais idosas, que usam a internet com menos frequência e querem uma navegação mais tranquila, simples e segura.
+![Logo do Navego](Images/main_blue.png)
+
+O Navego foi criado para quem quer navegar com mais calma, sem anúncios distrativos e com controles simples que funcionam bem desde a primeira vez que você usa.
+
+Esta extensão oferece um design limpo, menus fáceis e símbolos claros para que qualquer pessoa — especialmente quem navega menos frequentemente — se sinta segura ao usar a web.
 
 ## Sobre o projeto
 
-Este projeto foi pensado para deixar a experiência na web mais confortável para quem prefere uma extensão fácil de usar, sem muitas opções complicadas. O navego oferece uma interface intuitiva com feedback visual em tempo real sobre quantos anúncios foram bloqueados.
+Este projeto foi pensado para deixar a experiência na web mais confortável para quem prefere uma extensão fácil de usar, sem muitas opções complicadas. O Navego oferece uma interface intuitiva com feedback visual em tempo real sobre quantos anúncios foram bloqueados.
 
 O navego ajuda a:
 
@@ -36,8 +40,17 @@ O navego ajuda a:
   - Ativar listas de filtros online (EasyList e EasyPrivacy)
   - Bloquear formulários de pagamento
   - Modo rigoroso
-  - Acessibilidade: tamanho de fonte, modo escuro e alto contraste;
+  - Acessibilidade: tamanho de fonte, modo escuro e alto contraste
 - ✅ **descrições de imagem acessíveis** para tecnologias assistivas.
+
+### Algumas opções explicadas
+
+- **Bloquear anúncios nativos**: remove banners e blocos de publicidade que aparecem diretamente na página, deixando o conteúdo principal mais limpo.
+- **Bloquear rastreadores**: impede scripts que tentam seguir sua navegação em diferentes sites, preservando sua privacidade.
+- **Ativar filtros online**: ao ligar EasyList e EasyPrivacy, o Navego usa regras extras atualizadas para bloquear mais anúncios e rastreadores conhecidos.
+- **Bloquear formulários de pagamento**: identifica e bloqueia formulários suspeitos de pagar sem querer, protegendo usuários que não querem fornecer dados sensíveis.
+- **Modo rigoroso**: quando ativado, o Navego age com mais firmeza e bloqueia todos os formulários, ideal para quem prefere uma navegação mais segura e sem preocupações.
+- **Acessibilidade**: você pode ajustar o tamanho da fonte, alternar para modo escuro e alto contraste para facilitar a leitura e o uso em qualquer ambiente.
 
 ## Como instalar no Firefox
 
