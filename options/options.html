@@ -5,16 +5,20 @@
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
-  <!-- Painel lateral de navegação das configurações -->
-  <div class="sidebar">
-    <div class="menu-item active" data-target="geral">Geral</div>
-    <div class="menu-item" data-target="bloqueioFormularios">Bloqueio de formulários</div>
-    <div class="menu-item" data-target="acessibilidade">Acessibilidade</div>
-    <button id="saveBtn" class="save-button" disabled>Salvar alterações</button>
-  </div>
-  
-  <div class="content">
-    <div id="geral" class="section active">
+  <div class="page-shell">
+    <!-- Painel lateral de navegação das configurações -->
+    <div class="sidebar">
+      <div class="menu-item active" data-target="geral">Geral</div>
+      <div class="menu-item" data-target="bloqueioFormularios">Bloqueio de formulários</div>
+      <div class="menu-item" data-target="acessibilidade">Acessibilidade</div>
+    </div>
+
+    <div class="content">
+      <div class="content-actions">
+        <button id="saveBtn" class="save-button" disabled>Salvar alterações</button>
+      </div>
+
+      <div id="geral" class="section active">
       <h2>Geral</h2>
       <div class="setting">
         <div class="option-meta">
@@ -68,8 +72,8 @@
           <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="false">desligado</button>
         </div>
       </div>
-    </div>
-    <div id="bloqueioFormularios" class="section">
+      </div>
+      <div id="bloqueioFormularios" class="section">
       <h2>Bloqueio de formulários</h2>
       <div class="setting">
         <div class="option-meta">
@@ -97,8 +101,8 @@
           <button class="toggle-button" data-setting="strictMode" data-value="false">desligado</button>
         </div>
       </div>
-    </div>
-    <div id="acessibilidade" class="section">
+      </div>
+      <div id="acessibilidade" class="section">
       <h2>Acessibilidade</h2>
       <div class="setting">
         <div class="option-meta">
@@ -106,7 +110,7 @@
             <img src="../Images/font.png" class="option-icon" alt="Ícone de tamanho de fonte">
             <span>Tamanho da fonte</span>
           </div>
-          <div class="option-desc">Escolha um tamanho de fonte maior para a interface. Alternativamente, use a tecla CTRL (control) + roda do mouse para cima ou baixo. </div>
+          <div class="option-desc">Escolha um tamanho de fonte maior para a interface.</div>
         </div>
         <div class="toggle-group font-size-group">
           <button class="toggle-button" data-setting="fontSize" data-value="1">1</button>
@@ -142,6 +146,8 @@
           <button class="toggle-button" data-setting="highContrast" data-value="false">desligado</button>
         </div>
       </div>
+      </div>
+      <p class="accessibility-note">Aviso: também é possível ajustar o tamanho da interface com CTRL + roda do mouse para cima ou para baixo.</p>
     </div>
   </div>
   <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>

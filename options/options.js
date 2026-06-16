@@ -1,12 +1,21 @@
 /* Inicializa a navegação das abas de opções */
-document.querySelectorAll('.menu-item').forEach(item => {
+const menuItems = document.querySelectorAll('.menu-item');
+const sections = document.querySelectorAll('.section');
+
+function activateSection(sectionId, persist = true) {
+  menuItems.forEach(item => item.classList.toggle('active', item.dataset.target === sectionId));
+  sections.forEach(section => section.classList.toggle('active', section.id === sectionId));
+
+  if (persist && storage) {
+    storage.set({ lastOptionsSection: sectionId, hasOpenedOptions: true }).catch(() => {
+      console.error('Falha ao salvar a última seção aberta');
+    });
+  }
+}
+
+menuItems.forEach(item => {
   item.addEventListener('click', (e) => {
-    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    
-    const targetItem = e.currentTarget;
-    targetItem.classList.add('active');
-    document.getElementById(targetItem.dataset.target).classList.add('active');
+    activateSection(e.currentTarget.dataset.target);
   });
 });
 
@@ -76,9 +85,16 @@ function setSaveButtonState(enabled) {
   saveButton.textContent = enabled ? 'Salvar alterações' : 'Alterações salvas';
 }
 
-storage.get(defaultSettings).then(res => {
+storage.get({ ...defaultSettings, hasOpenedOptions: false, lastOptionsSection: 'geral' }).then(res => {
   pendingSettings = { ...res };
   applyPendingUI();
+  const firstOpenSection = res.hasOpenedOptions ? res.lastOptionsSection : 'acessibilidade';
+  activateSection(firstOpenSection, false);
+  if (!res.hasOpenedOptions) {
+    storage.set({ hasOpenedOptions: true, lastOptionsSection: firstOpenSection }).catch(() => {
+      console.error('Falha ao registrar a primeira abertura das opções');
+    });
+  }
   setSaveButtonState(false);
 }).catch(() => {
   console.error('Não foi possível acessar storage.local');

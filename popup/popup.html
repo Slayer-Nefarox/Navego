@@ -14,11 +14,11 @@
     </div>
     <div class="counters-area">
       <div class="counter" id="pageCounter">
-        <span class="counter-label">Anúncios bloqueados</span>
+        <span class="counter-label" aria-label="anúncios bloqueados">Anúncios bloqueados</span>
         <span class="counter-value">0</span>
       </div>
       <div class="counter" id="totalCounter">
-        <span class="counter-label">Total bloqueado</span>
+        <span class="counter-label" aria-label="total bloqueado">Total bloqueado</span>
         <span class="counter-value">0</span>
       </div>
     </div>
@@ -27,12 +27,12 @@
     </div>
   </div>
 
-  <div id="confirmationOverlay" class="confirmation-overlay hidden" aria-hidden="true">
+  <div id="confirmationOverlay" class="confirmation-overlay hidden" aria-label="confirmação de desativação">
     <div class="confirmation-dialog">
       <p>tem certeza que quer desativar?</p>
       <div class="confirmation-actions">
-        <button id="cancelDisableBtn" class="cancel-btn" type="button">cancelar</button>
-        <button id="confirmDisableBtn" class="disable-btn" type="button">desativar</button>
+        <button id="cancelDisableBtn" class="cancel-btn" type="button" aria-label="cancelar">cancelar</button>
+        <button id="confirmDisableBtn" class="disable-btn" type="button" aria-label="confirmar desativação">desativar</button>
       </div>
     </div>
   </div>

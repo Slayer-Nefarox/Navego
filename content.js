@@ -1,77 +1,47 @@
 /* Palavras-chave usadas para detectar formulários de pagamento */
 const FORM_KEYWORDS = [
-  'visa',
-  'mastercard',
-  'amex',
-  'card',
-  'cc',
-  'cvv',
-  'cvc',
-  'payment',
-  'billing',
-  'checkout'
+  'visa', 'mastercard', 'amex', 'card', 'cc', 'cvv', 'cvc', 'payment', 'billing', 'checkout'
 ];
 
-/* Palavras-chave usadas para detectar anúncios e banners */
-const AD_KEYWORDS_REGEX = /\b(?:ad|ads|advert|advertising|banner|sponsor|sponsors|promo|promoc|publicidade|patrocinado|patrocinada|patrocinio)\b/i;
-const AD_ELEMENT_SELECTORS = ['img', 'iframe', 'video', 'picture', 'div', 'section', 'aside', 'span', 'a'];
+/* Regex para strings genéricas de anúncio limitadas por fronteiras exatas (classes, IDs, ou caminhos de URL) */
+const AD_KEYWORDS_REGEX = /(^|[-_/])(ads?|banners?|advertising|sponsor(ed)?|promo|publicidade|patrocinado)([-_/\.]|$)/i;
+
+/* Regex para domínios de redes de anúncios conhecidos */
+const AD_NETWORKS_REGEX = /(doubleclick\.net|adservice\.google|googlesyndication|taboola|outbrain|amazon-adsystem)/i;
 
 const extensionApi = typeof browser === 'object' ? browser : typeof chrome === 'object' ? chrome : null;
 const storage = extensionApi?.storage?.local ?? null;
 
-/* Incrementa os contadores de anúncios bloqueados */
 function incrementAdCounter() {
   if (!storage) return;
 
   storage.get({ adsBlockedThisPage: 0, adsBlockedTotal: 0 }).then(res => {
-    const newAdsThisPage = res.adsBlockedThisPage + 1;
-    const newAdsTotal = res.adsBlockedTotal + 1;
     storage.set({
-      adsBlockedThisPage: newAdsThisPage,
-      adsBlockedTotal: newAdsTotal
-    }).catch(() => {
-      console.error('Falha ao atualizar contadores de anúncios');
-    });
-  }).catch(() => {
-    console.error('Falha ao ler contadores de anúncios');
-  });
+      adsBlockedThisPage: res.adsBlockedThisPage + 1,
+      adsBlockedTotal: res.adsBlockedTotal + 1
+    }).catch(() => {});
+  }).catch(() => {});
 }
 
-/* Verifica se um campo contém termos que sugerem formulário de pagamento */
 function fieldMatchesKeyword(field) {
   const text = [
-    field.name,
-    field.id,
-    field.type,
-    field.placeholder,
-    field.title,
-    field.getAttribute('aria-label'),
-    field.className
-  ]
-    .filter(Boolean)
-    .join(' ')
-    .toLowerCase();
+    field.name, field.id, field.type, field.placeholder, field.title, field.className
+  ].filter(Boolean).join(' ').toLowerCase();
 
-  if (FORM_KEYWORDS.some(keyword => text.includes(keyword))) {
-    return true;
-  }
+  if (FORM_KEYWORDS.some(keyword => text.includes(keyword))) return true;
 
   const label = document.querySelector(`label[for="${CSS.escape(field.id || '')}"]`);
-  if (label && FORM_KEYWORDS.some(keyword => label.textContent.toLowerCase().includes(keyword))) {
-    return true;
-  }
+  if (label && FORM_KEYWORDS.some(keyword => label.textContent.toLowerCase().includes(keyword))) return true;
 
   const parentLabel = field.closest('label');
   return parentLabel && FORM_KEYWORDS.some(keyword => parentLabel.textContent.toLowerCase().includes(keyword));
 }
 
-/* Verifica se o formulário contém qualquer campo com palavras-chave de pagamento */
 function matchesForm(form) {
   const inputs = Array.from(form.querySelectorAll('input, select, textarea'));
   return inputs.some(field => fieldMatchesKeyword(field));
 }
 
-/* Desativa visualmente e funcionalmente o formulário detectado */
 function disableForm(form) {
   form.querySelectorAll('input, select, textarea, button, a').forEach(el => {
     el.disabled = true;
@@ -91,11 +61,7 @@ function disableForm(form) {
   overlay.style.flexDirection = 'column';
   overlay.style.alignItems = 'center';
   overlay.style.justifyContent = 'center';
-  overlay.style.textAlign = 'center';
-  overlay.style.padding = '20px';
   overlay.style.zIndex = '9999';
-  overlay.style.fontFamily = 'sans-serif';
-  overlay.style.lineHeight = '1.5';
 
   const message = document.createElement('div');
   message.textContent = 'bloqueado por navego';
@@ -111,13 +77,9 @@ function disableForm(form) {
   link.style.fontSize = '15px';
   link.addEventListener('click', (event) => {
     event.preventDefault();
-    if (window.history.length > 1) {
-      window.history.back();
-    } else if (document.referrer) {
-      window.location.href = document.referrer;
-    } else {
-      window.location.href = 'about:blank';
-    }
+    if (window.history.length > 1) window.history.back();
+    else if (document.referrer) window.location.href = document.referrer;
+    else window.location.href = 'about:blank';
   });
 
   overlay.appendChild(message);
@@ -125,68 +87,39 @@ function disableForm(form) {
   form.appendChild(overlay);
 }
 
-/* Bloqueia apenas formulários que parecem ser de pagamento */
 function blockPaymentForms() {
-  const forms = Array.from(document.querySelectorAll('form'));
-  forms.forEach(form => {
-    if (matchesForm(form)) {
-      disableForm(form);
-    }
+  document.querySelectorAll('form').forEach(form => {
+    if (matchesForm(form)) disableForm(form);
   });
 }
 
-/* Bloqueia todos os formulários quando o modo rigoroso está ativo */
 function blockAllForms() {
-  const forms = Array.from(document.querySelectorAll('form'));
-  forms.forEach(form => {
-    disableForm(form);
-  });
+  document.querySelectorAll('form').forEach(form => disableForm(form));
 }
 
-/* Retorna uma string com atributos relevantes do elemento para análise */
-function getElementAttributesText(element) {
-  const attributes = [
-    element.id,
-    element.className,
-    element.getAttribute('alt'),
-    element.getAttribute('title'),
-    element.getAttribute('placeholder'),
-    element.getAttribute('aria-label'),
-    element.getAttribute('data-src'),
-    element.getAttribute('data-image'),
-    element.getAttribute('src'),
-    element.getAttribute('srcset'),
-    element.getAttribute('href')
-  ].filter(Boolean);
-
-  return attributes.join(' ').toLowerCase();
-}
-
-/* Determina se um elemento aparenta ser anúncio/banners */
+/* Identifica estruturas de anúncios omitindo avaliação nociva de texto de conteúdo */
 function isAdElement(element) {
   if (!element || !element.tagName || element.dataset.navegoBlocked === 'true') {
     return false;
   }
 
-  const elementText = getElementAttributesText(element);
-  if (AD_KEYWORDS_REGEX.test(elementText)) {
-    return true;
+  const tagName = element.tagName.toUpperCase();
+  const id = element.id || '';
+  const className = typeof element.className === 'string' ? element.className : '';
+
+  // 1. Bloqueio por Classes e IDs
+  if (AD_KEYWORDS_REGEX.test(id) || AD_KEYWORDS_REGEX.test(className)) {
+    if (!className.toLowerCase().includes('header') && !className.toLowerCase().includes('nav')) {
+      return true;
+    }
   }
 
-  const visibleText = (element.textContent || '').toLowerCase();
-  if (AD_KEYWORDS_REGEX.test(visibleText)) {
-    return true;
-  }
-
-  const computedStyle = window.getComputedStyle(element);
-  const backgroundImage = computedStyle.backgroundImage || '';
-  if (backgroundImage && AD_KEYWORDS_REGEX.test(backgroundImage)) {
-    return true;
-  }
-
-  if (['IMG', 'IFRAME', 'VIDEO', 'PICTURE'].includes(element.tagName)) {
-    const src = (element.src || element.currentSrc || element.getAttribute('src') || '').toLowerCase();
-    if (AD_KEYWORDS_REGEX.test(src) || src.includes('banner') || src.includes('.gif')) {
+  // 2. Bloqueio por atributos de mídia (src/href)
+  if (['IFRAME', 'IMG', 'PICTURE', 'VIDEO', 'A'].includes(tagName)) {
+    const src = element.src || element.getAttribute('src') || element.href || '';
+    
+    // Captura tanto domínios externos de tracker quanto caminhos relativos nomeados como anúncio
+    if (AD_NETWORKS_REGEX.test(src) || AD_KEYWORDS_REGEX.test(src)) {
       return true;
     }
   }
@@ -194,7 +127,6 @@ function isAdElement(element) {
   return false;
 }
 
-/* Oculta o elemento detectado como anúncio */
 function hideAdElement(element) {
   element.dataset.navegoBlocked = 'true';
   element.style.setProperty('display', 'none', 'important');
@@ -204,46 +136,33 @@ function hideAdElement(element) {
   incrementAdCounter();
 }
 
-/* Varre e oculta elementos que correspondem a anúncios */
+/* Otimizado: Foco em nós estruturais propensos a anúncios */
 function blockAdElements(root = document) {
-  const elements = Array.from(root.querySelectorAll(AD_ELEMENT_SELECTORS.join(',')));
+  const elements = Array.from(root.querySelectorAll('iframe, img, div[class], div[id], aside, section'));
   elements.forEach(element => {
-    if (isAdElement(element)) {
-      hideAdElement(element);
-    }
+    if (isAdElement(element)) hideAdElement(element);
   });
 }
 
-/* Observa a página para bloquear anúncios carregados dinamicamente */
 function observeAdMutations() {
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
-        if (node.nodeType !== Node.ELEMENT_NODE) {
-          return;
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          if (isAdElement(node)) {
+            hideAdElement(node);
+          }
+          blockAdElements(node);
         }
-
-        const element = node;
-        if (isAdElement(element)) {
-          hideAdElement(element);
-        }
-
-        blockAdElements(element);
       });
     });
   });
 
-  observer.observe(document.documentElement || document.body, {
-    childList: true,
-    subtree: true
-  });
+  observer.observe(document.documentElement || document.body, { childList: true, subtree: true });
 }
 
-/* Executa os bloqueios configurados */
 function applyBlocking(res) {
-  if (res.enabled === false) {
-    return;
-  }
+  if (res.enabled === false) return;
 
   if (res.blockNative) {
     blockAdElements();
@@ -263,11 +182,8 @@ function applyBlocking(res) {
 const defaultSettings = { enabled: true, blockNative: true, blockForms: true, strictMode: false };
 
 function initializeContentScript() {
-  // Reseta o contador de anúncios bloqueados nessa página
   if (storage) {
-    storage.set({ adsBlockedThisPage: 0 }).catch(() => {
-      console.error('Falha ao resetar contador de anúncios da página');
-    });
+    storage.set({ adsBlockedThisPage: 0 }).catch(() => {});
   }
 
   if (!storage?.get) {
@@ -284,16 +200,12 @@ initializeContentScript();
 
 if (storage?.onChanged) {
   storage.onChanged.addListener((changes, area) => {
-    if (area !== 'local' || !('enabled' in changes)) {
-      return;
+    if (area === 'local' && 'enabled' in changes) {
+      if (changes.enabled.newValue === false) {
+        window.location.reload();
+      } else {
+        initializeContentScript();
+      }
     }
-
-    const newValue = changes.enabled.newValue;
-    if (newValue === false) {
-      window.location.reload();
-      return;
-    }
-
-    initializeContentScript();
   });
 }
