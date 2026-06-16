@@ -5,6 +5,8 @@ const settingsBtn = document.getElementById('settingsBtn');
 const confirmationOverlay = document.getElementById('confirmationOverlay');
 const confirmDisableBtn = document.getElementById('confirmDisableBtn');
 const cancelDisableBtn = document.getElementById('cancelDisableBtn');
+const popupTitle = document.getElementById('popupTitle');
+const popupStatus = document.getElementById('popupStatus');
 const pageCounterValue = document.querySelector('#pageCounter .counter-value');
 const totalCounterValue = document.querySelector('#totalCounter .counter-value');
 const images = {
@@ -33,6 +35,22 @@ function updateCounters(pageCount, totalCount) {
   if (totalCounterValue) {
     totalCounterValue.textContent = totalCount;
   }
+}
+
+/* Foca o título e anuncia o resumo inicial para leitores de tela */
+function announcePopupOpen(enabled, pageCount, totalCount) {
+  const state = enabled ? 'ligada' : 'desligada';
+
+  popupTitle?.focus();
+
+  setTimeout(() => {
+    if (!popupStatus) return;
+
+    popupStatus.textContent =
+      `Navego aberto. Proteção ${state}. ` +
+      `${pageCount} anúncios bloqueados nesta página. ` +
+      `${totalCount} anúncios bloqueados no total.`;
+  }, 150);
 }
 
 /* Carrega os contadores de anúncios bloqueados */
@@ -93,9 +111,13 @@ if (storage) {
     updateToggle(res.enabled);
     applyAccessibility(res);
     updateCounters(res.adsBlockedThisPage, res.adsBlockedTotal);
+    announcePopupOpen(res.enabled, res.adsBlockedThisPage, res.adsBlockedTotal);
   }).catch(() => {
+    announcePopupOpen(true, 0, 0);
     console.error('Storage API não disponível');
   });
+} else {
+  announcePopupOpen(true, 0, 0);
 }
 
 toggleButton.addEventListener('click', () => {

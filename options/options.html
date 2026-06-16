@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <title>Navego - Configurações</title>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
 
     <div class="content">
       <div class="content-actions">
-        <button id="saveBtn" class="save-button" disabled>Salvar alterações</button>
+        <button id="saveBtn" class="save-button" aria-label="Salvar alterações" disabled>Salvar alterações</button>
       </div>
 
       <div id="geral" class="section active">
@@ -29,8 +30,8 @@
           <div class="option-desc">Impede anúncios nativos de carregarem em páginas e protege sua navegação.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="blockNative" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="blockNative" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="blockNative" data-value="true" aria-label="Bloquear Anúncios Nativos: ligado">ligado</button>
+          <button class="toggle-button" data-setting="blockNative" data-value="false" aria-label="Bloquear Anúncios Nativos: desligado">desligado</button>
         </div>
       </div>
       <div class="setting">
@@ -42,8 +43,8 @@
           <div class="option-desc">Bloqueia scripts e domínios usados para rastrear seu comportamento online.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="blockTrackers" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="blockTrackers" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="blockTrackers" data-value="true" aria-label="Bloquear Rastreadores: ligado">ligado</button>
+          <button class="toggle-button" data-setting="blockTrackers" data-value="false" aria-label="Bloquear Rastreadores: desligado">desligado</button>
         </div>
       </div>
       <div class="setting">
@@ -55,8 +56,8 @@
           <div class="option-desc">Ativa filtros populares para bloquear anúncios conhecidos em sites.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="blockEasyList" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="blockEasyList" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="blockEasyList" data-value="true" aria-label="Bloquear listas de filtros online (EasyList): ligado">ligado</button>
+          <button class="toggle-button" data-setting="blockEasyList" data-value="false" aria-label="Bloquear listas de filtros online (EasyList): desligado">desligado</button>
         </div>
       </div>
       <div class="setting">
@@ -68,8 +69,8 @@
           <div class="option-desc">Ativa filtros de privacidade para bloquear rastreamento e coleta de dados.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="true" aria-label="Bloquear listas de privacidade online (EasyPrivacy): ligado">ligado</button>
+          <button class="toggle-button" data-setting="blockEasyPrivacy" data-value="false" aria-label="Bloquear listas de privacidade online (EasyPrivacy): desligado">desligado</button>
         </div>
       </div>
       </div>
@@ -84,8 +85,8 @@
           <div class="option-desc">Esmaece e bloqueia formulários que parecem coletar dados de cartão e pagamento.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="blockForms" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="blockForms" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="blockForms" data-value="true" aria-label="Bloquear formulários de pagamento: ligado">ligado</button>
+          <button class="toggle-button" data-setting="blockForms" data-value="false" aria-label="Bloquear formulários de pagamento: desligado">desligado</button>
         </div>
       </div>
       <div class="setting">
@@ -97,8 +98,8 @@
           <div class="option-desc">Bloqueia todos os formulários da página, independentemente do tipo ou do conteúdo pedido.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="strictMode" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="strictMode" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="strictMode" data-value="true" aria-label="Modo rigoroso: ligado">ligado</button>
+          <button class="toggle-button" data-setting="strictMode" data-value="false" aria-label="Modo rigoroso: desligado">desligado</button>
         </div>
       </div>
       </div>
@@ -113,11 +114,11 @@
           <div class="option-desc">Escolha um tamanho de fonte maior para a interface.</div>
         </div>
         <div class="toggle-group font-size-group">
-          <button class="toggle-button" data-setting="fontSize" data-value="1">1</button>
-          <button class="toggle-button" data-setting="fontSize" data-value="2">2</button>
-          <button class="toggle-button" data-setting="fontSize" data-value="3">3</button>
-          <button class="toggle-button" data-setting="fontSize" data-value="4">4</button>
-          <button class="toggle-button" data-setting="fontSize" data-value="5">5</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="1" aria-label="Tamanho de fonte 1">1</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="2" aria-label="Tamanho de fonte 2">2</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="3" aria-label="Tamanho de fonte 3">3</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="4" aria-label="Tamanho de fonte 4">4</button>
+          <button class="toggle-button" data-setting="fontSize" data-value="5" aria-label="Tamanho de fonte 5">5</button>
         </div>
       </div>
       <div class="setting">
@@ -129,8 +130,8 @@
           <div class="option-desc">Troca o tema para fundo preto e textos brancos.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="darkMode" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="darkMode" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="darkMode" data-value="true" aria-label="Modo escuro: ligado">ligado</button>
+          <button class="toggle-button" data-setting="darkMode" data-value="false" aria-label="Modo escuro: desligado">desligado</button>
         </div>
       </div>
       <div class="setting">
@@ -142,8 +143,8 @@
           <div class="option-desc">Define fontes em negrito e delimita layout com linhas visíveis.</div>
         </div>
         <div class="toggle-group">
-          <button class="toggle-button" data-setting="highContrast" data-value="true">ligado</button>
-          <button class="toggle-button" data-setting="highContrast" data-value="false">desligado</button>
+          <button class="toggle-button" data-setting="highContrast" data-value="true" aria-label="Alto contraste: ligado">ligado</button>
+          <button class="toggle-button" data-setting="highContrast" data-value="false" aria-label="Alto contraste: desligado">desligado</button>
         </div>
       </div>
       </div>

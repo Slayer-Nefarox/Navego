@@ -2,11 +2,15 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <title>Navego - Proteção contra anúncios</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
+  <h1 id="popupTitle" class="sr-only" tabindex="-1">Navego - Proteção contra anúncios</h1>
+  <p id="popupStatus" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+
   <!-- Interface mínima do popup da extensão -->
-  <div class="container">
+  <div class="container" role="main" aria-labelledby="popupTitle">
     <div class="icon-area">
       <button id="toggleBtn" class="toggle-btn" type="button" aria-label="Alternar proteção">
         <img class="toggle-img" src="../Images/ligado.png" alt="Estado da proteção">
