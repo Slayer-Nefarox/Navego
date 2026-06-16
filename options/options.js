@@ -27,9 +27,40 @@ const saveButton = document.getElementById('saveBtn');
 const toggleButtons = document.querySelectorAll('.toggle-button');
 const settings = ['blockNative', 'blockTrackers', 'blockEasyList', 'blockEasyPrivacy', 'blockForms', 'strictMode', 'fontSize', 'darkMode', 'highContrast'];
 const defaultSettings = { blockNative: true, blockTrackers: true, blockEasyList: false, blockEasyPrivacy: false, blockForms: true, strictMode: false, fontSize: 2, darkMode: false, highContrast: false };
+const settingLabels = {
+  blockNative: 'Bloquear anúncios nativos',
+  blockTrackers: 'Bloquear rastreadores',
+  blockEasyList: 'Bloquear listas de filtros online EasyList',
+  blockEasyPrivacy: 'Bloquear listas de privacidade online EasyPrivacy',
+  blockForms: 'Bloquear formulários de pagamento',
+  strictMode: 'Modo rigoroso',
+  fontSize: 'Tamanho da fonte',
+  darkMode: 'Modo escuro',
+  highContrast: 'Alto contraste'
+};
 let pendingSettings = { ...defaultSettings };
 
 /* Atualiza o estado visual dos botões de toggle conforme o valor atual */
+function getButtonLabel(setting, buttonValue) {
+  const label = settingLabels[setting] ?? setting;
+
+  if (setting === 'fontSize') {
+    return `Selecionar ${label} ${buttonValue}`;
+  }
+
+  return `${buttonValue === 'true' ? 'Ligar' : 'Desligar'} ${label}`;
+}
+
+function getStateAnnouncement(setting, value) {
+  const label = settingLabels[setting] ?? setting;
+
+  if (setting === 'fontSize') {
+    return `${label} alterado para ${value}.`;
+  }
+
+  return `${label} ${value ? 'ligado' : 'desligado'}.`;
+}
+
 function setToggleUI(setting, value) {
   document.querySelectorAll(`.toggle-button[data-setting="${setting}"]`).forEach(btn => {
     const buttonValue = btn.dataset.value;
@@ -43,6 +74,8 @@ function setToggleUI(setting, value) {
     btn.classList.toggle('active', isMatch);
     btn.classList.toggle('on', setting !== 'fontSize' && buttonValue === 'true' && value === true);
     btn.classList.toggle('off', setting !== 'fontSize' && buttonValue === 'false' && value === false);
+    btn.setAttribute('aria-pressed', String(isMatch));
+    btn.setAttribute('aria-label', getButtonLabel(setting, buttonValue));
   });
 }
 
@@ -112,7 +145,7 @@ toggleButtons.forEach(button => {
     }
 
     setSaveButtonState(true);
-    showToast(`Opção '${setting}' alterada`, 'warning');
+    showToast(getStateAnnouncement(setting, value), 'warning');
   });
 });
 
